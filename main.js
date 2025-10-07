@@ -261,69 +261,6 @@ function displayDashboard(totalCases, years, totals, monthsWithData, months, tot
     document.getElementById('loading').style.display = 'none';
 }
 
-async function getMapDataAndDisplay() {
-    try {
-        const { data, error } = await supabaseClient
-            .from('overall_records')
-            .select('barangay, week, total_cases')
-            .eq('year', currentYear)
-            .order('week', { ascending: false });
-
-        if (error) {
-            console.error('Error fetching Supabase data:', error);
-            return;
-        }
-
-        const latestByBarangay = Object.values(
-            data.reduce((acc, record) => {
-                if (!acc[overall_record.Barangay]) acc[overall_record.Barangay] = overall_record;
-                return acc;
-            }, {})
-        );
-
-        console.log('Latest data per Barangay:', latestByBarangay);
-
-        const geoResponse = await fetch('assets/SAN_PABLO_MAP.geojson');
-        const geojsonData = await geoResponse.json();
-        
-        geojsonData.features.forEach(feature => {
-            const barangayName = feature.properties.name;
-            const barangayData = latestByBarangay.find(
-                overall_record => overall_record.Barangay.toLowerCase().trim() === barangayName.toLowerCase().trim()
-            );
-
-            const riskClassification = barangayData
-                ? barangayData.Risk_Classification
-                : 'Low Risk';
-
-            console.log(`Matching Barangay: ${barangayName}, Risk: ${riskClassification}`);
-
-            feature.properties.Risk_Classification = riskClassification;
-        });
-
-        const map = L.map('barangay-map').setView([14.07, 121.32], 13);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.geoJSON(geojsonData, {
-            style: function(feature) {
-                const riskClassification = feature.properties.Risk_Classification;
-                return {
-                    color: getColorForRiskClassification(riskClassification),
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.7
-                };
-            }
-        }).addTo(map);
-
-    } catch (error) {
-        console.error('Error in getMapDataAndDisplay:', error);
-    }
-}
-
 function getColorForRiskClassification(riskClassification) {
     switch (riskClassification) {
         case 'Low Risk':
@@ -504,7 +441,6 @@ navigator.geolocation.getCurrentPosition(
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchData();
-    getMapDataAndDisplay();
     loadContent();
     loadPreventionContent();
     loadPublicReferences();
@@ -576,5 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', closeAllModals);
     }
     initializeModal('info-btn', infoModal); 
+
 
 }); 
