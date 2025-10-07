@@ -187,7 +187,6 @@ header h5 {
     background-color: #fff;
     min-width: 300px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    gap: 10px;
     box-sizing: border-box;
 }
 .chart-card h3 {
@@ -259,7 +258,7 @@ header h5 {
 .result-summary h3 {
     margin-top: 0;
 }
-.prediction-result .chart-card {
+.prediction-result {
     height: 300px;
     background-color: #fff;
 }
@@ -536,3 +535,4 @@ header h5 {
     z-index: 1101;
 
 }
+
