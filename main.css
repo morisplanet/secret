@@ -142,6 +142,7 @@ header h5 {
     padding: 40px 30px;
     margin: 20px 10px 20px 10px;
     box-sizing: border-box;
+    justify-content: center;
 }
 #predictions, #cities, #prevention, #year, #contact {
     display: flex;
@@ -535,4 +536,5 @@ header h5 {
     z-index: 1101;
 
 }
+
 
