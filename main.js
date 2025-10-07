@@ -261,20 +261,6 @@ function displayDashboard(totalCases, years, totals, monthsWithData, months, tot
     document.getElementById('loading').style.display = 'none';
 }
 
-function getColorForRiskClassification(riskClassification) {
-    switch (riskClassification) {
-        case 'Low Risk':
-            return '#2ECC71';
-        case 'Moderate Risk':
-            return '#FFD700';
-        case 'High Risk':
-            return '#FF6347';
-        default:
-            return '#808080';
-    }
-}
-
-
 async function loadContent() {
     const { data, error } = await supabaseClient.from('site_content').select('*');
     if (error) {
@@ -515,3 +501,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 }); 
+
