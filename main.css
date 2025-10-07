@@ -169,7 +169,7 @@ header h5 {
     border-radius: 10px;
     text-align: center;
     align-items: center;
-    justify-content: center;
+    justify-self: center;
 }
 #dashboard {background: #1e3c72; color: white; margin: 0 10px;}
 .dashboard-card{
@@ -536,5 +536,6 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
