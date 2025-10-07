@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-TECT</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <header>
+        <div class="header-left">
+            <button class="hamburger-btn"><i class="fas fa-bars"></i></button>
+            <div class="header-title"><h1>D-TECT</h1></div>
+        </div>
+        <div class="header-btn">
+            <button id="info-btn" class="info-btn"><i class="fas fa-info"></i></button>
+        </div>
+    </header>
+    <div class="main-page">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li><a href="#predictions"><i class="fas fa-chart-line"></i><span>Predictions</span></a></li>
+                <li><a href="#cities"><i class="fas fa-city"></i><span>Barangays</span></a></li>
+                <li><a href="#year"><i class="fas fa-calendar-alt"></i><span>Year</span></a></li>
+                <li><a href="#prevention"><i class="fas fa-shield-alt"></i><span>Prevention</span></a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <div id="dashboard" class="content-section">
+                <div class="dashboard-card">
+                    <h1 id="current-cases">--</h1>
+                    <p>Dengue Incidence in <span class="current-year">--</span></p>
+                </div>
+                <div class="dashboard-card">
+                    <canvas id="month-trend" width="200" height="100"></canvas>
+                    <p>Monthly Dengue Incidence in <span class="current-year">--</span></p>
+                </div>
+                <div class="dashboard-card">
+                    <canvas id="year-trend" width="200" height="100"></canvas>
+                    <p>5-Year Dengue Incidence Trend</p>
+                </div>
+            </div>
+            <div id="charts">
+                <div class="chart-card">
+                    <h3>Cases by Year</h3>
+                    <div id="barangay-map" style="height: 300px;"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Dengue Cases by Gender</h3>
+                    <canvas id="gender-chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Dengue Cases by Age Group</h3>
+                    <canvas id="age-chart"></canvas>
+                </div>
+            </div>
+            <div id="predictions" class="content-section">
+                <h2>Dengue Case Predictions</h2>
+                <form id="prediction-form" class="prediction-form">
+                    <div class="form-group" style="display: none;">
+                        <label for="pred-barangay">Barangay</label>
+                        <select id="pred-barangay">
+                            <option value="all">All Barangays</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pred-month">Month</label>
+                        <select id="pred-month">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pred-year">Year</label>
+                        <select id="pred-year"></select>
+                    </div>
+                    <button type="submit" class="predict-btn">Predict</button>
+                </form>
+                <div id="prediction-result" class="prediction-result" style="display: none;">
+                    <div id="prediction-risk-cards" style="display: flex; gap: 20px; margin-bottom: 20px;"></div>
+                    <div class="result-summary">
+                        <h3>Prediction for the Next 3 Months</h3>
+                        <p id="result-text"></p>
+                    </div>
+                    <div class="result-charts">
+                        <div class="chart-card">
+                            <h4>Monthly Forecast</h4>
+                            <canvas id="predicted-monthly-chart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Gender Distribution</h4>
+                            <canvas id="predicted-gender-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div id="prediction-pagination-container" class="pagination-container"></div>
+            </div>
+            <div id="cities" class="content-section">
+                <h2>San Pablo City Barangays</h2>
+                <p>Detailed information and statistics for each barangay in San Pablo, Laguna.</p>
+                <div class="barangay-toolbar">
+                    <input type="text" id="barangay-search" placeholder="Search for a barangay...">
+                </div>
+                <div id="barangay-grid" class="barangay-grid">
+                    <!-- Barangay cards will be inserted here by script.js -->
+                </div>
+                <div id="barangay-pagination-container" class="pagination-container"></div>
+            </div>
+            <div id="year" class="content-section">
+                <h2>Yearly Case Analysis – San Pablo City, Laguna</h2>
+                <p>This section provides a historical overview of dengue cases in San Pablo, broken down by year, month, and gender.</p>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Cases by Year</h3>
+                        <canvas id="yearly-cases-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Cases by Month (All Time)</h3>
+                        <canvas id="monthly-cases-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Case Distribution by Gender</h3>
+                        <canvas id="gender-cases-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div id="prevention" class="content-section">
+                <div class="area-title">
+                    <h2>Prevention</h2>
+                </div>
+                <div class="message">
+                    <h1 id="prevention_header_title"></h1>
+                    <p id="prevention_header_text"></p>    
+                </div>
+                <div class="prevention-content">
+                    <div id="prevention_content_container"></div>
+                </div>
+                <div class="sources-section">
+                    <h4>References & Trusted Sources</h4>
+                    <ul id="reference-list"></ul>
+                </div>
+            </div>
+            <div id="contact" class="content-section">
+                <h2>Contact</h2>
+                <div class="contact-details">
+                    <div class="contact-details-row" id="contact-details-row"></div>
+                </div>    
+                <h3>Nearby Hospitals</h3>
+                <div class="hospitals">
+                    <table class="hospital-table" id="hospital-table">
+                        <thead>
+                            <tr>
+                                <th>Hospital</th>
+                                <th>Address</th>
+                                <th>Distance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hospital-list"></tbody>
+                    </table>
+                </div>
+                <div id="hospital_map"></div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal -->
+    <div id="modal-overlay" class="overlay">
+        <div id="info-modal" class="modal">
+            <div class="modal-content">
+                <h2>About the System</h2>
+                <p>This Dengue Monitoring System is a comprehensive tool designed to track, analyze, and predict dengue cases in <b>San Pablo City, Laguna</b>. It provides real-time data, historical analysis, and predictive insights to help the local health unit manage and prevent outbreaks.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li><strong>Dashboard:</strong> An at-a-glance overview of current cases, high-risk zones, and trends in San Pablo City.</li>
+                    <li><strong>Predictions:</strong> Forecasts future dengue cases for San Pablo based on historical data.</li>
+                    <li><strong>Barangays:</strong> Detailed statistics for each barangay in San Pablo City.</li>
+                    <li><strong>Yearly Analysis:</strong> In-depth charts showing trends over the years for San Pablo City.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+
+</body>
+</html> 
