@@ -164,6 +164,7 @@ header h5 {
     flex-direction: column;
     flex: 1 1 0;
     max-width: 450px;
+    min-width: 150px;
     background-color: rgba(0, 0, 0, 0.2);
     margin: 5px;
     padding: 20px;
@@ -172,9 +173,6 @@ header h5 {
     align-items: center;
 }
 #dashboard {background: #1e3c72; color: white; margin: 0 10px;}
-.dashboard-card{
-    min-width: 150px;
-}
 .dashboard-card h1 {
     margin: 0;
     font-size: 7.5em;
@@ -186,7 +184,7 @@ header h5 {
 }
 .chart-card {
     background-color: #fff;
-    min-width: 300px;
+    min-heigth: 250px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     box-sizing: border-box;
 }
@@ -518,6 +516,7 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
 
