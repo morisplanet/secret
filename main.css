@@ -112,7 +112,7 @@ header h5 {
     flex-shrink: 0;
     align-items: center;
 }
-/* Hamburger */
+/* Header buttons */
 .hamburger-btn {
     font-size: 1.25em;
     top: 18px;
@@ -125,7 +125,6 @@ header h5 {
     display: block;
     cursor: pointer;
 }
-
 .info-btn {
     color:#333;
     border-radius: 50px;
@@ -135,18 +134,19 @@ header h5 {
     margin-left: 50px;
     cursor: pointer;
 }
+
 #charts, #predictions, #cities, #prevention, #year, #contact {
     background: #f9f9f9;
     border-radius: 20px;
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
     padding: 40px 30px;
     margin: 20px 10px 20px 10px;
-    box-sizing: border-box;
     justify-content: center;
 }
 #predictions, #cities, #prevention, #year, #contact {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 #dashboard, #charts {
     display: flex;
@@ -191,7 +191,8 @@ header h5 {
 .chart-card {
     background-color: #fff;
     min-heigth: 250px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3
+    justify-content: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 .chart-card h3 {
     margin-top: 0;
@@ -521,6 +522,7 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
 
