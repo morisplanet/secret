@@ -148,6 +148,7 @@ header h5 {
     flex-direction: column;
     box-sizing: border-box;
 }
+#predictions, #cities {min-height: 100vh;}
 #dashboard, #charts {
     display: flex;
     flex-wrap: wrap;
@@ -156,8 +157,6 @@ header h5 {
     padding: 50px 30px;
     box-sizing: border-box;
 }
-#predictions, #cities {min-height: 100vh;}
-
 .dashboard-card, .chart-card {
     display: flex;
     flex-direction: column;
@@ -190,14 +189,13 @@ header h5 {
 }
 .chart-card {
     background-color: #fff;
-    justify-content: flex-start;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    justify-content: flex-start;
 }
 .chart-card h3 {
     margin-top: 0;
     margin-bottom: 15px;
 }
-
 /* Prediction */
 .prediction-form {
     display: flex;
@@ -521,6 +519,7 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
 
