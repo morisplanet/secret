@@ -190,7 +190,6 @@ header h5 {
 }
 .chart-card {
     background-color: #fff;
-    min-heigth: 250px;
     justify-content: flex-start;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
@@ -522,6 +521,7 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
 
