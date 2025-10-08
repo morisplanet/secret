@@ -169,6 +169,7 @@ header h5 {
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    box-sizing: border-box;
 }
 #dashboard {background: #1e3c72; color: white; margin: 0 10px;}
 .dashboard-card {
@@ -520,6 +521,7 @@ header h5 {
     z-index: 1101;
 
 }
+
 
 
 
